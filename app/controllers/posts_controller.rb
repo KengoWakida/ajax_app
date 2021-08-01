@@ -9,6 +9,9 @@ class PostsController < ApplicationController
   #end
 
   def create
-    Post.create(content: params[:content])
+    #binding.pry #リクエスト送信 確認テスト
+    post = Post.create(content: params[:content])       #postテーブルのcontentカラムのパラメータを保存してpostに格納
+    #redirect_to action: :index    #index画面にリダイレクト（遷移）
+    render json:{post: post }           #「post:」→キー、「post」→値 renderでjavaScriptに送信
   end
 end
