@@ -1,11 +1,12 @@
 class PostsController < ApplicationController
 
-  def index
-    @posts = Post.all
+  def index #トップページ
+    @posts = Post.order(id: "DESC")  #新しい順に表示
   end
 
-  def new
-  end
+  #使わないのでコメントアウト
+  #def new
+  #end
 
   def create
     Post.create(content: params[:content])
