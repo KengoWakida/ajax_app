@@ -1,3 +1,18 @@
+const buildHTML = (XHR) => {
+  const item = XHR.response.post;
+  const html = `
+    <div class="post">
+      <div class="post-date">
+        投稿日時:${item.created_at}
+      </div>
+      <div class="post-content">
+        ${item.content}
+      </div>
+    </div>`;
+  return html;
+};
+
+
 function post(){
   //リクエストを送信する処理
   //console.log("リクエスト送信 イベント発火");
@@ -13,6 +28,20 @@ function post(){
     XHR.open("POST","/posts",true)                /* リクエストの内容を指定 */
     XHR.responseType = "json"                     /* レスポンスのデータフォーマットをjsonに指定 */
     XHR.send(formData);                           /* リクエストを送信 */
+    XHR.onload = () => {                          /* 通信が成功した時の処理 */ 
+      if (XHR.status != 200){                     /* レスポンスに何らかの問題があった場合 */  
+        alert(`Error ${XHR.status}: ${XHR.statusText}`);
+        return null;                              /* JavaScriptの処理から抜け出す */
+      }
+      
+      //console.log(XHR.response);
+      const list = document.getElementById("list");
+      const formText = document.getElementById("content")
+      //console.log(formText.value)               /* テキストフォームに入力した内容を取得 */
+
+        list.insertAdjacentHTML("afterend",(XHR));
+        formText.value = "";
+    };
   });
 };
 
